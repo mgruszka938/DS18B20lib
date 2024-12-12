@@ -8,7 +8,7 @@ DS18B20::DS18B20(TIM_HandleTypeDef *tim, GPIO_TypeDef *port, uint16_t pin) : _ti
 void DS18B20::delayMicro(uint16_t us)
 {
     _tim->Instance->CNT = 0;
-    while (_tim->Instance->CNT < us) /* Loop lasts until counter value until it equals or exceedes the value of us */
+    while (_tim->Instance->CNT < us)
         ;
 }
 
@@ -88,4 +88,35 @@ uint8_t DS18B20::readData()
     }
 
     return val;
+}
+
+void DS18B20::startSensor()
+{
+    setOutput();
+    setPin(false);
+
+    delayMicro(480);
+    setInput();
+    delayMicro(80);
+    readData();
+    delayMicro(400);
+}
+
+float DS18B20::readTemp()
+{
+    startSensor();
+    HAL_Delay(1);
+    writeData(0xCC);
+    writeData(0x44);
+    HAL_Delay(800);
+    startSensor();
+    writeData(0xCC);
+    writeData(0xBE);
+
+    uint8_t temp1 = readData();
+    uint8_t temp2 = readData();
+
+    uint16_t temp = (temp2 << 8) | temp1;
+
+    return (float)(temp / 16.0);
 }

@@ -8,7 +8,7 @@ class DS18B20
 {
 public:
     DS18B20(TIM_HandleTypeDef *tim, GPIO_TypeDef *port, uint16_t pin);
-    float read_temperature();
+    float readTemp();
 
 private:
     TIM_HandleTypeDef *_tim;
@@ -16,12 +16,15 @@ private:
     uint16_t _pin;
 
     void delayMicro(uint16_t us);
+
     void setInput();
     void setOutput();
     void setPin(bool on);
     void togglePin();
     GPIO_PinState readPin();
-    void startSensor();
+
     void writeData(uint8_t data);
     uint8_t readData();
+
+    void startSensor();
 };
