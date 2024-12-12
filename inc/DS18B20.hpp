@@ -11,16 +11,17 @@ public:
     float read_temperature();
 
 private:
-    void setOutput();
+    TIM_HandleTypeDef *_tim;
+    GPIO_TypeDef *_port;
+    uint16_t _pin;
+
+    void delayMicro(uint16_t us);
     void setInput();
+    void setOutput();
     void setPin(bool on);
     void togglePin();
     GPIO_PinState readPin();
     void startSensor();
     void writeData(uint8_t data);
     uint8_t readData();
-    void delayMicro(uint16_t us);
-    TIM_HandleTypeDef *_tim;
-    GPIO_TypeDef *_port;
-    uint16_t _pin;
 };
