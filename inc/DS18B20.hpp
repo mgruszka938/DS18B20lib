@@ -11,9 +11,9 @@ public:
     float readTemp();
 
 private:
-    TIM_HandleTypeDef *_tim;
-    GPIO_TypeDef *_port;
-    uint16_t _pin;
+    TIM_HandleTypeDef *m_tim;
+    GPIO_TypeDef *m_port;
+    uint16_t m_pin;
 
     void delayMicro(uint16_t us);
 
